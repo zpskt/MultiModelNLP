@@ -8,8 +8,8 @@ app = FastAPI()
 
 # 从指定路径加载训练好的模型和对应的 tokenizer
 # "./results" 是训练脚本中 Trainer 保存模型的目录
-model = BertForSequenceClassification.from_pretrained("./results")
-tokenizer = BertTokenizer.from_pretrained("bert-base-chinese")  # 加载中文 BERT 的 tokenizer
+model = BertForSequenceClassification.from_pretrained("results")
+tokenizer = BertTokenizer.from_pretrained("model/bert-base-chinese")  # 加载中文 BERT 的 tokenizer
 
 # 定义 ID 到标签的映射（与训练时的 label2id 对应）
 id2label = {0: "正向", 1: "中性", 2: "负向"}

@@ -1,1 +1,2 @@
 .idea
+model/bert-base-chinese/pytorch_model.bin
