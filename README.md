@@ -6,7 +6,10 @@ conda env create -f environment.yml
 ```shell
 conda env export > environment.yml
 ```
-
+## 查看是否支持cuda
+```shell
+python -c "import torch; print(torch.mps.is_available())"
+```
 ## 下载模型
 ```shell
 cd model/bert-base-chinese

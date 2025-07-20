@@ -76,6 +76,7 @@ training_args = TrainingArguments(
     per_device_train_batch_size=16,        # 每个设备的训练 batch size
     num_train_epochs=3,                    # 总共训练的 epoch 数
     weight_decay=0.01,                     # 权重衰减（L2 正则化）
+    use_cpu=False
 )
 
 # 创建 Trainer，用于管理训练过程
