@@ -1,2 +1,2 @@
-# sentiment
-中文情感分析训练及应用
+## 创建环境
+conda env create -f environment.yml
