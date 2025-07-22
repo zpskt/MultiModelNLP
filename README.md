@@ -30,7 +30,7 @@ pip install -r requirements.txt
 cd app
 uvicorn sentiment_analysis_api:app --reload
 ```
-api调用
+api调用 建议批次100个执行
 详情使用参照 app/test_sentiment_analysis_api.py
 
 
