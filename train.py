@@ -5,7 +5,7 @@ import pandas as pd
 import re
 import os
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com" # 设置代理 官方地址无法访问
-BERT_PATH = "/Users/zhangpeng/Desktop/zpskt/sentiment/model/bert-base-chinese"
+BERT_PATH = "model/bert-base-chinese"
 # 加载 JSON 格式的评论数据，假设文件名为 comments.json
 # 1️⃣ 加载 CSV 数据，并只保留 content 和 sentiment 两列
 data = pd.read_csv(

@@ -51,6 +51,11 @@ python app/test_sentiment_analysis_api.py
 ```shell
 wget -P model/bert-base-chinese https://hf-mirror.com/google-bert/bert-base-chinese/resolve/main/pytorch_model.bin
 ```
+或者配置huggingface镜像
+```shell
+export HF_ENDPOINT=https://hf-mirror.com
+```
+
 2.开始训练
 ```shell
 python train.py 
