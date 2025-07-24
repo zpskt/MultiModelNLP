@@ -1,4 +1,4 @@
-from safetensors import torch
+import torch
 from transformers import BertForSequenceClassification, BertTokenizer
 
 
@@ -18,7 +18,7 @@ def modelscope_predict(input):
     print(cls)
 def bert_predict():
     text = '启动的时候很大声音，然后就会听到1.2秒的卡察的声音，类似齿轮摩擦的声音'
-    model = BertForSequenceClassification.from_pretrained("results")
+    model = BertForSequenceClassification.from_pretrained("results/check-point-4785")
     tokenizer = BertTokenizer.from_pretrained("model/bert-base-chinese")  # 加载中文 BERT 的 tokenizer
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
     # 定义 ID 到标签的映射（与训练时的 label2id 对应）
