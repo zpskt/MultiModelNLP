@@ -60,8 +60,20 @@ export HF_ENDPOINT=https://hf-mirror.com
 ```shell
 python train.py 
 ```
-3. 查看训练结果
+3. 查看训练结果 
 训练结果放置于results文件夹下
+模型检查点目录结构
+├── checkpoint-4785
+│         ├── config.json          # 模型配置文件，保存模型的超参数和架构配置信息
+││        ├── model.safetensors    # 模型权重文件，使用safetensors格式存储模型参数
+││        ├── optimizer.pt         # 优化器状态文件，保存优化器的参数和状态，用于恢复训练
+││        ├── rng_state.pth        # 随机数生成器状态文件，确保训练过程的可重现性
+││        ├── scheduler.pt         # 学习率调度器状态文件，保存学习率调整策略的状态
+││        ├── trainer_state.json   # 训练器状态文件，记录训练过程中的各种状态信息
+││        └── training_args.bin   # 训练参数文件，保存训练时使用的命令行参数配置
+该目录保存了训练过程中的模型检查点，包含模型权重、配置和训练状态等文件
+用于模型的恢复训练或推理部署
+当使用时，加载模型选择某个文件夹模型即可，要保证结构与我的一致
 ### 使用
 运行Api服务
 ```shell
