@@ -32,9 +32,11 @@ def main():
     
     # 初始化问答系统
 
-    # 如果不使用OpenAI，则使用免费的HuggingFace模型
-    qa_system = QASystem(vector_store, model_name="qwen-turbo")  # 或 "qwen-plus", "qwen-max"
-    
+    # gpu服务器使用14常识
+    qa_system = QASystem(vector_store, model_name="Qwen/Qwen2-14B ")
+    # 本机使用1.5B
+    qa_system = QASystem(vector_store, model_name="Qwen/Qwen2-1.5B ")
+
     # 交互式问答
     print("文档问答系统已准备就绪！输入 'quit' 退出。")
     while True:

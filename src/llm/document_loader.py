@@ -55,6 +55,27 @@ class DocumentProcessor:
             # 可以在这里添加备选方案
             raise e
 
+    def  add_documents_to_store(self, vector_store: FAISS, file_paths: List[str]) -> FAISS:
+        """向现有向量存储中添加新文档"""
+        all_documents = []
+
+        for file_path in file_paths:
+            if os.path.exists(file_path):
+                documents = self.load_document(file_path)
+                all_documents.extend(documents)
+                print(f"Loaded {len(documents)} documents from {file_path}")
+            else:
+                print(f"File not found: {file_path}")
+
+        # 分割文档
+        split_documents = self.text_splitter.split_documents(all_documents)
+        print(f"Split into {len(split_documents)} chunks")
+
+        # 添加到现有向量存储
+        vector_store.add_documents(split_documents)
+        print(f"Added {len(split_documents)} new chunks to vector store")
+        return vector_store
+
     def save_vector_store(self, vector_store: FAISS, path: str):
         """保存向量存储到磁盘"""
         vector_store.save_local(path)
