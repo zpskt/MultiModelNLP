@@ -1,11 +1,11 @@
-import os
-from llm.document_loader import DocumentProcessor
-from llm.qa_system import QASystem
+from document_loader import DocumentProcessor
+from qa_system import QASystem
 
 def main():
     # 初始化文档处理器
     processor = DocumentProcessor()
-    
+    import os
+    os.environ["DASHSCOPE_API_KEY"] = "sk-********"
     # 指定文档路径（请根据实际情况修改）
     document_paths = [
         "/Users/zhangpeng/Desktop/计算机科学与工程学院_计算机技术_2201903053_张鹏.docx",
@@ -25,17 +25,15 @@ def main():
     vector_store = processor.process_documents(document_paths)
     
     # 保存向量存储（可选）
-    # processor.save_vector_store(vector_store, "faiss_index")
+    processor.save_vector_store(vector_store, "faiss_index")
     
     # 加载已保存的向量存储（如果之前已保存）
-    # vector_store = processor.load_vector_store("faiss_index")
+    vector_store = processor.load_vector_store("faiss_index")
     
     # 初始化问答系统
-    # 如果使用OpenAI，请提供API密钥
-    # qa_system = QASystem(vector_store, openai_api_key="your-openai-api-key")
-    
+
     # 如果不使用OpenAI，则使用免费的HuggingFace模型
-    qa_system = QASystem(vector_store)
+    qa_system = QASystem(vector_store, model_name="qwen-turbo")  # 或 "qwen-plus", "qwen-max"
     
     # 交互式问答
     print("文档问答系统已准备就绪！输入 'quit' 退出。")

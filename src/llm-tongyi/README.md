@@ -1,40 +1,27 @@
 # 前言
-提供两种方式提供情感分析服务：
-1. 通用化服务：通过api方式提供服务，情感分类仅支持 正向 负向 双分类，且由于训练数据集的领域化，可能针对特殊场景，效果不理想。
-2. 定制化服务：使用谷歌提出的bert-base-chinese作为预训练模型，针对自己的特殊场景，对模型定制化训练，可以实现情感多分类，且效果良好。
-
+langchain+faiss+llm
 ## 环境安装
 ### 安装
 请确保你已经安装了**conda**
-```shell
-# 清华大学镜像站
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
-
-# 中科大镜像站
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main/
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/free/
-conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/
-
-# 北京外国语大学镜像站
-conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/pkgs/main/
-conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/pkgs/free/
-
-```
 1. 下载项目
 ```shell
 git clone https://github.com/zpskt/sentiment.git
 cd sentiment
 ```
+去申请api
+https://dashscope.console.aliyun.com/overview 获取apikey
 2. 创建环境
 ```shell
-conda create -n sentiment --override-channels -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ python=3.12.11
+conda create -n llm-faiss --override-channels -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ python=3.9
 ```
 3. 安装依赖
 ```shell
-conda activate sentiment
-pip install -r requirements.txt
+conda activate llm-faiss
+conda install langchain -c conda-forge
+pip install -U langchain-community langgraph langchain-anthropic tavily-python langgraph-checkpoint-sqlite
+pip install -U sentence-transformers
+conda install  docx2txt
+pip install faiss-cpu
 #pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 ```
 4. 使用cuda
