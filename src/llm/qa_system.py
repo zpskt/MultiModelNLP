@@ -56,7 +56,11 @@ class QASystem:
             llm=self.llm,
             chain_type="stuff",
             retriever=vector_store.as_retriever(search_kwargs={"k": 3}),
-            return_source_documents=True
+            return_source_documents=True,
+            # 添加prompt模板来控制输出格式
+            chain_type_kwargs={
+                "prompt": None  # 使用默认prompt，避免添加额外的提示信息
+            }
         )
     
     def ask(self, question: str) -> dict:
@@ -66,7 +70,24 @@ class QASystem:
         :return: 包含答案和源文档的字典
         """
         result = self.qa_chain({"query": question})
+        
+        # 提取纯答案，去除可能的提示信息
+        answer = result["result"]
+        # 移除常见的提示前缀
+        if "Answer:" in answer:
+            answer = answer.split("Answer:", 1)[1].strip()
+        elif "答案:" in answer:
+            answer = answer.split("答案:", 1)[1].strip()
+        elif "Use the following pieces of context" in answer:
+            # 如果模型输出了提示信息，只保留问题相关部分
+            lines = answer.split('\n')
+            # 找到包含答案的部分
+            for i, line in enumerate(lines):
+                if line.strip() == '' and i < len(lines) - 1:
+                    answer = '\n'.join(lines[i+1:])
+                    break
+        
         return {
-            "answer": result["result"],
+            "answer": answer,
             "source_documents": result["source_documents"]
         }

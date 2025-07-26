@@ -5,6 +5,7 @@ from flask import Flask, jsonify
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 from pydantic import BaseModel
+import os
 
 from llm.document_loader import DocumentProcessor
 from llm.qa_system import QASystem
@@ -15,7 +16,14 @@ semantic_cls = pipeline(Tasks.text_classification, 'iic/nlp_structbert_sentiment
 
 # 初始化问答系统
 processor = DocumentProcessor()
-vector_store = processor.load_vector_store("faiss_index")
+
+# 检查向量存储是否存在，如果不存在则创建一个空的
+vector_store_path = "faiss_index"
+if os.path.exists(vector_store_path) and os.path.exists(os.path.join(vector_store_path, "index.faiss")):
+    vector_store = processor.load_vector_store(vector_store_path)
+else:
+    print("Vector store not found, will create new one when adding documents")
+    vector_store = None
 
 # 定义情感分析请求体结构
 class PredictRequest(BaseModel):
@@ -39,6 +47,9 @@ def ask_question(request: QARequest):
     if not question:
         return jsonify({'error': 'Question is required'}), 400
     
+    if vector_store is None:
+        return jsonify({'error': 'Vector store not initialized. Please add documents first.'}), 500
+    
     # 初始化问答系统实例
     qa_system = QASystem(vector_store)
     
@@ -56,8 +67,12 @@ def add_documents(request: AddDocumentsRequest):
     global vector_store
     
     try:
-        # 添加新文档到现有向量存储
-        vector_store = processor.add_documents_to_store(vector_store, request.file_paths)
+        # 如果向量存储不存在，创建新的；否则添加到现有向量存储
+        if vector_store is None:
+            vector_store = processor.process_documents(request.file_paths)
+        else:
+            # 添加新文档到现有向量存储
+            vector_store = processor.add_documents_to_store(vector_store, request.file_paths)
         
         # 保存更新后的向量存储
         processor.save_vector_store(vector_store, "faiss_index")
