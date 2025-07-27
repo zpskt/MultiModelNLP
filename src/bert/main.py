@@ -1,20 +1,6 @@
 import torch
 from transformers import BertForSequenceClassification, BertTokenizer
 
-
-def modelscope_predict(input):
-    from modelscope.pipelines import pipeline
-    from modelscope.utils.constant import Tasks
-
-    semantic_cls = pipeline(Tasks.text_classification, 'iic/nlp_structbert_sentiment-classification_chinese-large')
-    pre_list = ['启动的时候很大声音，然后就会听到1.2秒的卡察的声音，类似齿轮摩擦的声音',
-                '我很喜欢',
-                '吴总好帅',
-                ]
-    pre_list_2 = ['启动的时候很大声音，然后就会听到1.2秒的卡察的声音，类似齿轮摩擦的声音'] * 100
-    cls = semantic_cls(input=pre_list_2)
-
-    print(cls)
 def bert_predict():
     text = '启动的时候很大声音，然后就会听到1.2秒的卡察的声音，类似齿轮摩擦的声音'
     model = BertForSequenceClassification.from_pretrained("results/check-point-4785")
@@ -37,6 +23,3 @@ def bert_predict():
 
 if __name__ == '__main__':
     print(bert_predict())
-
-
-

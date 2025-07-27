@@ -1,7 +1,8 @@
 import os
 from typing import List
 from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, UnstructuredExcelLoader
-# 添加更多文档加载器
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from langchain_community.document_loaders import TextLoader, UnstructuredPowerPointLoader, UnstructuredHTMLLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -23,7 +24,7 @@ class DocumentProcessor:
         # 跟踪已处理的文件
         self.processed_files = set()
         # 记录文件路径的元数据文件
-        self.metadata_file = "src/llm/processed_files.json"
+        self.metadata_file = "processed_files.json"
 
 
     def load_document(self, file_path: str) -> List:

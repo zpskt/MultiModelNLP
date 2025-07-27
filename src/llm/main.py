@@ -49,10 +49,10 @@ def main():
     vector_store = processor.process_documents(expanded_document_paths)
     
     # 保存向量存储（可选）
-    processor.save_vector_store(vector_store, "src/llm/faiss_index")
+    processor.save_vector_store(vector_store, "faiss_index")
     
     # 加载已保存的向量存储（如果之前已保存）
-    vector_store = processor.load_vector_store("src/llm/faiss_index")
+    vector_store = processor.load_vector_store("faiss_index")
     
     # 初始化问答系统
 

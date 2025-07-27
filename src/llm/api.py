@@ -6,20 +6,18 @@ from pydantic import BaseModel
 
 from document_loader import DocumentProcessor
 from qa_system import QASystem
-from src.util.log import LoggerManager
-log = LoggerManager().get_logger()
 app = Flask(__name__)
 # 初始化问答系统
 processor = DocumentProcessor()
 # 获取当前文件的绝对路径
 # 检查向量存储是否存在，如果不存在则创建一个空的
-vector_store_path = "llm/faiss_index"
+vector_store_path = "/Users/zhangpeng/Desktop/zpskt/MultiModelNLP/src/llm/faiss_index"
 if os.path.exists(vector_store_path) and os.path.exists(os.path.join(vector_store_path, "index.faiss")):
     vector_store = processor.load_vector_store(vector_store_path)
     # 初始化问答系统实例
     qa_system = QASystem(vector_store)
 else:
-    log.info("向量存储不存在，将在添加文档时创建新的")
+    print("向量存储不存在，将在添加文档时创建新的")
     vector_store = None
 
 # 定义问答请求体结构
@@ -43,7 +41,7 @@ def ask_question():
         return jsonify({'error': 'Invalid JSON data'}), 400
         
     # 修复日志记录格式化问题
-    log.info("收到问题: %s", question)
+    print("收到问题: %s", question)
     if not question:
         return jsonify({'error': 'Question is required'}), 400
     
