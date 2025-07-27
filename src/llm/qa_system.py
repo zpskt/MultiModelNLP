@@ -1,7 +1,5 @@
-import os
-
 from langchain.chains import RetrievalQA
-from langchain_community.llms import HuggingFacePipeline
+from langchain_huggingface import HuggingFacePipeline
 from modelscope import AutoModelForCausalLM, AutoTokenizer
 from transformers import pipeline
 
@@ -69,8 +67,8 @@ class QASystem:
         :param question: 问题文本
         :return: 包含答案和源文档的字典
         """
-        result = self.qa_chain({"query": question})
-        
+        # 使用 invoke 方法替代已弃用的 __call__ 方法
+        result = self.qa_chain.invoke(question)
         # 提取纯答案，去除可能的提示信息
         answer = result["result"]
         # 移除常见的提示前缀
@@ -91,3 +89,21 @@ class QASystem:
             "answer": answer,
             "source_documents": result["source_documents"]
         }
+    
+    def _create_custom_prompt(self):
+        """
+        创建自定义prompt模板来控制输出格式 todo这里加上以后反而效率不好
+        """
+        from langchain.prompts import PromptTemplate
+        
+        # 定义自定义prompt模板
+        template = """仅基于提供的文档片段回答，不得使用文档外的信息”，从源头避免模型编造内容。
+        文档片段: {context}
+        问题: {question}
+        有用的回答:"""
+        
+        prompt = PromptTemplate(
+            template=template,
+            input_variables=["context", "question"]
+        )
+        return prompt

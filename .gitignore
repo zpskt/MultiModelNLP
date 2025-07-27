@@ -1,3 +1,5 @@
 .idea
 model/bert-base-chinese/pytorch_model.bin
-faiss_index/
+src/llm/faiss_index/
+results/
+logs/*

@@ -1,5 +1,22 @@
 # 前言
 langchain+faiss+llm
+## 项目结构
+```shell
+
+│   ├── llm
+│   │   ├── api.py
+│   │   ├── document_loader.py
+│   │   ├── main.py
+│   │   ├── qa_system.py
+│   │   └── processed_files.json
+```
+README.md - 项目说明文档
+document_loader.py - 文档加载和处理模块
+main.py - 主程序入口
+qa_system.py - 问答系统实现模块
+api.py - api服务模块
+processed_files.json - 已处理的文件列表
+
 ## 环境安装
 ### 安装
 请确保你已经安装了**conda**
